@@ -17,6 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+//        print("\(User.currentUser!.name)")
+        
+        if User.currentUser != nil {
+            print("There is a user")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetNavigationController")
+            window?.rootViewController = vc
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(User.userdidLogout, object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.window?.rootViewController = vc
+        }
         return true
     }
 
@@ -44,23 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
         
-        let requestToken = BDBOAuth1Credential(queryString: url.query)
         
-        let twitter = BDBOAuth1SessionManager(baseURL: NSURL(string: "https://api.twitter.com"), consumerKey: "4nrdZKdOKUWcwRTCxGjYUHqo3", consumerSecret: "APWedULzTeexYaAJtNrTqvWCKERS5dVyrtbDiiJpT8DxS2fbBA")
-
-        twitter.fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential!) -> Void in
-            print("got token")
-            
-            twitter.GET("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
-                print("\(response)")
-                }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
-                    print("error happened")
-            })
-            
-            }) { (error: NSError!) -> Void in
-                print("I got error")
-        }
-        
+        let client = TwitterClient.shareInstance
+        client.handleOpenUrl(url)
         
         
         return true
