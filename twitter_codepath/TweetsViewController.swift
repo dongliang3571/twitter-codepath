@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AFNetworking
 
 class TweetsViewController: UIViewController {
 
     @IBOutlet weak var mytableView: UITableView!
+    
     var tweets: [Tweet]!
     
     override func viewDidLoad() {
@@ -22,9 +24,10 @@ class TweetsViewController: UIViewController {
         
         TwitterClient.shareInstance.homeTimeline({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
-            
-            for tweet in tweets {
-                
+            self.mytableView.reloadData()
+
+            for t in tweets {
+                print("\(t.profileImage)")
             }
             }) { (error: NSError) -> () in
                 print(error.localizedDescription)
@@ -60,13 +63,27 @@ class TweetsViewController: UIViewController {
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = mytableView.dequeueReusableCellWithIdentifier("tweetCell", forIndexPath: indexPath)
+        let cell = mytableView.dequeueReusableCellWithIdentifier("tweetCell", forIndexPath: indexPath) as! TweetTableViewCell
+        
+//        if let imgUrl = tweets[indexPath.row].profileImage {
+//            
+//            cell.profileImage.setImageWithURL(imgUrl)
+//        }
+        
+//        cell.tweetText.text =  tweets[1].text as! String
+//        let hhaa = tweets[1].text
+        cell.tweet = tweets[indexPath.row]
         
         return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        if let tweets = tweets  {
+            return tweets.count
+        } else {
+            return 0
+        }
+        
     }
     
 }

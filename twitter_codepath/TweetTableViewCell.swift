@@ -7,9 +7,25 @@
 //
 
 import UIKit
+import AFNetworking
 
 class TweetTableViewCell: UITableViewCell {
 
+    
+    @IBOutlet weak var profileImage: UIImageView!
+    
+    @IBOutlet weak var username: UILabel!
+    
+    @IBOutlet weak var tweetText: UILabel!
+    
+    var tweet: Tweet! {
+        didSet {
+            tweetText.text = tweet.text
+            username.text = tweet.username
+            profileImage.setImageWithURL(tweet.profileImage!)
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

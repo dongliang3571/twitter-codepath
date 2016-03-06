@@ -60,7 +60,37 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mj6-hH-lFS" id="3Vf-ND-AGN">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="115.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Lga-61-fOS">
+                                                    <rect key="frame" x="8" y="8" width="55" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="7La-29-MQs"/>
+                                                        <constraint firstAttribute="height" constant="60" id="MeK-pj-NhK"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1D1-jd-G6d">
+                                                    <rect key="frame" x="71" y="8" width="241" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8o4-li-WxY">
+                                                    <rect key="frame" x="71" y="27" width="241" height="80.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Lga-61-fOS" firstAttribute="top" secondItem="3Vf-ND-AGN" secondAttribute="top" constant="8" id="Re7-05-0vZ"/>
+                                                <constraint firstItem="Lga-61-fOS" firstAttribute="leading" secondItem="3Vf-ND-AGN" secondAttribute="leading" constant="8" id="xLs-aY-Nfl"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="profileImage" destination="Lga-61-fOS" id="rLv-V3-vEw"/>
+                                            <outlet property="tweetText" destination="8o4-li-WxY" id="ebr-02-Nkc"/>
+                                            <outlet property="username" destination="1D1-jd-G6d" id="06T-AZ-JGR"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
