@@ -15,23 +15,25 @@ class TweetsViewController: UIViewController {
     
     var tweets: [Tweet]!
     
+    var refreshControl: UIRefreshControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let image = UIImage(named: "Twitter_logo_blue_32.png")
+        self.navigationItem.titleView = UIImageView(image: image!)
+        
+//        self.tabBarItem.title = "Home"
+//        self.tabBarItem.image = UIImage(named: "home")
         mytableView.delegate = self
         mytableView.dataSource = self
         
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        mytableView.insertSubview(refreshControl, atIndex: 0)
         
-        TwitterClient.shareInstance.homeTimeline({ (tweets: [Tweet]) -> () in
-            self.tweets = tweets
-            self.mytableView.reloadData()
-
-            for t in tweets {
-                print("\(t.profileImage)")
-            }
-            }) { (error: NSError) -> () in
-                print(error.localizedDescription)
-        }
+        requestHomeTimeLine()
 
         // Do any additional setup after loading the view.
     }
@@ -86,4 +88,39 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         
     }
     
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        
+        requestHomeTimeLine()
+        
+        
+    }
+    
+    func requestHomeTimeLine() {
+        TwitterClient.shareInstance.homeTimeline({ (tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            self.mytableView.reloadData()
+            self.refreshControl.endRefreshing()
+            
+            }) { (error: NSError) -> () in
+                print(error.localizedDescription)
+        }
+    }
+    
+    
+//     MARK: - Navigation
+//    
+//     In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! UITableViewCell
+        let indexpath = mytableView.indexPathForCell(cell)
+        let tweet = tweets[indexpath!.row]
+        let detailViewController = segue.destinationViewController as! DetailViewController
+//        detailViewController.hidesBottomBarWhenPushed = true
+        detailViewController.tweet = tweet
+
+    }
+    
 }
+
+
+

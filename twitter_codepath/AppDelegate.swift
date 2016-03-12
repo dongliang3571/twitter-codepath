@@ -1,4 +1,4 @@
-//
+    //
 //  AppDelegate.swift
 //  twitter_codepath
 //
@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if User.currentUser != nil {
             print("There is a user")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetNavigationController")
+            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetTabBarController")
+            
             window?.rootViewController = vc
         }
         

@@ -16,14 +16,30 @@ class Tweet: NSObject {
     var favoriteCount: Int = 0
     var profileImage: NSURL?
     var username: String
-    
+    var screenName: String
+    var isFavorited: Bool
+    var tweetID: String!
+    var _createAt: String!
+    var createAt: String? {
+        get {
+            let df = NSDateFormatter()
+            //Wed Dec 01 17:08:03 +0000 2010
+            df.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
+            let date = df.dateFromString(_createAt)
+            df.dateFormat = "M/dd/yy, HH:mm:ss a"
+            let dateStr = df.stringFromDate(date!)
+            return dateStr
+        }
+        
+    }
+   
     
     
     
     init(dictionary: NSDictionary) {
         text = dictionary["text"] as! String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoriteCount = (dictionary["favorites_count"] as? Int) ?? 0
+        favoriteCount = (dictionary["user"]!["favourites_count"] as? Int) ?? 0
         
         let timestampstring = dictionary["create_at"] as? String
         
@@ -41,7 +57,13 @@ class Tweet: NSObject {
         
         username = dictionary["user"]!["name"] as! String
         
+        screenName = dictionary["user"]!["screen_name"] as! String
         
+        _createAt = dictionary["created_at"] as! String
+        
+        isFavorited = dictionary["favorited"] as! Bool
+        
+        tweetID = dictionary["id_str"] as! String
     }
 
     class func tweetWithArray(dictionaries: [NSDictionary]) -> [Tweet] {

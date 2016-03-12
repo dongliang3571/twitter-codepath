@@ -23,6 +23,7 @@ class TweetTableViewCell: UITableViewCell {
             tweetText.text = tweet.text
             username.text = tweet.username
             profileImage.setImageWithURL(tweet.profileImage!)
+            tweetText.sizeToFit()
         }
     }
     
