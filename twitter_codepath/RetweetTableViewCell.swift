@@ -25,5 +25,10 @@ class RetweetTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func haha() {
+        retweet.text = "asdas"
+    }
+    
 
 }

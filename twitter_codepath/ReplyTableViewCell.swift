@@ -73,9 +73,11 @@ class ReplyTableViewCell: UITableViewCell {
         TwitterClient.shareInstance.retweetAction({ (dictionary: NSDictionary) -> () in
 //            print(dictionary)
             self.retweet.tintColor = UIColor.redColor()
+            NSNotificationCenter.defaultCenter().postNotificationName("retweetChanged", object: nil)
             }, failure: { (error:NSError) -> () in
                 print(error)
             }, tweetID: self.tweetID!)
+        
     }
     
     
@@ -84,6 +86,7 @@ class ReplyTableViewCell: UITableViewCell {
         TwitterClient.shareInstance.toLikeAction({ (dictionary: NSDictionary) -> () in
 
             self.favorite.tintColor = UIColor.redColor()
+            NSNotificationCenter.defaultCenter().postNotificationName("likeChanged", object: nil)
             }, failure: { (error: NSError) -> () in
                 print(error)
             }, tweetID: self.tweetID!)

@@ -31,6 +31,16 @@ class DetailViewController: UIViewController {
             DetailTableView.reloadData()
         }
         // Do any additional setup after loading the view.
+        
+        NSNotificationCenter.defaultCenter().addObserverForName("retweetChanged", object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
+            print("tweet changed")
+            self.DetailTableView.reloadData()
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName("likeChanged", object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
+            print("tweet changed")
+            self.DetailTableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,6 +59,11 @@ class DetailViewController: UIViewController {
     }
     */
 
+
+    
+
+    
+    
 }
 
 
@@ -90,7 +105,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 indexPath) as! ReplyTableViewCell
             
             cell.tweetID = tweet?.tweetID
-            print(cell.tweetID)
+//            print(cell.tweetID)
             
             TwitterClient.shareInstance.getSingleTweet({ (tweet: Tweet) -> () in
                 cell.isFavorited = tweet.isFavorited
@@ -123,8 +138,9 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func imageTapped(img: AnyObject) {
-        print("hahahahahaha")
         self.performSegueWithIdentifier("profileSegue", sender: self)
         
     }
+    
+    
 }

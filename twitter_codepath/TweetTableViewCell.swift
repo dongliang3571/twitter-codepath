@@ -9,6 +9,11 @@
 import UIKit
 import AFNetworking
 
+
+@objc protocol SegProfileDelegate {
+    optional func goToProfile(cell: TweetTableViewCell)
+}
+
 class TweetTableViewCell: UITableViewCell {
 
     
@@ -17,6 +22,8 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var username: UILabel!
     
     @IBOutlet weak var tweetText: UILabel!
+    
+    weak var delegate: SegProfileDelegate?
     
     var tweet: Tweet! {
         didSet {
@@ -29,6 +36,11 @@ class TweetTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: Selector("imageTapped"))
+        
+        profileImage.userInteractionEnabled = true
+        profileImage.addGestureRecognizer(tapGestureRecognizer)
         // Initialization code
     }
 
@@ -38,4 +50,13 @@ class TweetTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    
+    
+    func imageTapped() {
+        print("home profile image is clicked")
+        if self.delegate != nil {
+            delegate!.goToProfile?(self)
+        }
+        
+    }
 }

@@ -15,6 +15,10 @@ class User: NSObject {
     var profileUrl: NSURL?
     var tagline: String?
     
+    var followers: Int = 0
+    var following: Int = 0
+    var totalTweets: Int = 0
+    
     var dictionary: NSDictionary?
     
     
@@ -31,6 +35,13 @@ class User: NSObject {
         }
         
         tagline = dictionary["description"] as? String
+        
+        
+        followers = (dictionary["followers_count"] as? Int) ?? 0
+        
+        following = (dictionary["friends_count"] as? Int) ?? 0
+        
+        totalTweets = (dictionary["statuses_count"] as? Int) ?? 0
     }
     
     static var userdidLogout = "UserDidLogout"

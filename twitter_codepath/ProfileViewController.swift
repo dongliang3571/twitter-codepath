@@ -9,10 +9,16 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+    
+    @IBOutlet weak var profileTableView: UITableView!
+    
+    var tweet: Tweet?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        profileTableView.delegate = self
+        profileTableView.dataSource = self
+        
         // Do any additional setup after loading the view.
     }
 
@@ -32,4 +38,25 @@ class ProfileViewController: UIViewController {
     }
     */
 
+}
+
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = profileTableView.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
+        TwitterClient.shareInstance.getSingleTweet({ (tweet: Tweet) -> () in
+            cell.user = self.tweet?.user
+            }, failure: { (error: NSError) -> () in
+                print(error)
+            }, tweetID: self.tweet!.tweetID)
+        
+        
+        return cell
+    }
+    
 }

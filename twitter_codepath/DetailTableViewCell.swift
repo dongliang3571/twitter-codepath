@@ -8,6 +8,12 @@
 
 import UIKit
 
+
+//@objc protocol SegProfileDelegate {
+//    optional func goToProfile()
+//}
+
+
 class DetailTableViewCell: UITableViewCell {
 
     
@@ -21,6 +27,7 @@ class DetailTableViewCell: UITableViewCell {
 
     @IBOutlet weak var createAt: UILabel!
     
+//    weak var delegate: SegProfileDelegate?
     
     
     var tweet: Tweet! {
@@ -48,8 +55,7 @@ class DetailTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        
+
         
     }
 
