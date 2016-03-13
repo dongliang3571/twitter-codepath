@@ -18,6 +18,8 @@ class Tweet: NSObject {
     var username: String
     var screenName: String
     var isFavorited: Bool
+    var retweeted: Bool
+    
     var tweetID: String!
     var _createAt: String!
     var createAt: String? {
@@ -62,6 +64,8 @@ class Tweet: NSObject {
         _createAt = dictionary["created_at"] as! String
         
         isFavorited = dictionary["favorited"] as! Bool
+        
+        retweeted = dictionary["retweeted"] as! Bool
         
         tweetID = dictionary["id_str"] as! String
     }

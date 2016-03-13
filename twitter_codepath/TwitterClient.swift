@@ -131,5 +131,21 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     
+    func getSingleTweet(success: (Tweet) -> (), failure: (NSError) -> (), tweetID: String) {
+        TwitterClient.shareInstance.GET("1.1/statuses/show.json?id=\(tweetID)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            let dictionary = response as! NSDictionary
+            
+            var singleList = [NSDictionary]()
+            singleList.append(dictionary)
+            let tweet = Tweet.tweetWithArray(singleList)[0]
+            
+            success(tweet)
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                failure(error)
+        })
+    }
+    
+    
     
 }

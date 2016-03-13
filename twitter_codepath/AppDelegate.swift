@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        print("\(User.currentUser!.name)")
         
         if User.currentUser != nil {
-            print("There is a user")
+
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("TweetTabBarController")
             

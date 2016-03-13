@@ -12,7 +12,7 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var DetailTableView: UITableView!
 
-
+    static let shareInstance = DetailViewController()
     
     var tweet: Tweet?
     
@@ -26,11 +26,9 @@ class DetailViewController: UIViewController {
         DetailTableView.estimatedRowHeight = 120
         DetailTableView.tableFooterView = UIView(frame: CGRect.zero)
         
-        if let tweet = tweet {
+        if let _ = tweet {
             
-            print("table is prepared to set")
             DetailTableView.reloadData()
-            print("prepared is finished")
         }
         // Do any additional setup after loading the view.
     }
@@ -64,15 +62,26 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 indexPath) as! DetailTableViewCell
             
             cell.tweet = tweet
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: Selector("imageTapped:"))
+            
+            cell.profile_image.userInteractionEnabled = true
+            cell.profile_image.addGestureRecognizer(tapGestureRecognizer)
+            
             return cell
         }
         
         else if indexPath.row == 1 {
             let cell = DetailTableView.dequeueReusableCellWithIdentifier("RetweetCell", forIndexPath:
                 indexPath) as! RetweetTableViewCell
-            cell.retweet.text = "\((self.tweet?.retweetCount)!)"
-            cell.favorites.text = "\((self.tweet?.favoriteCount)!)"
-            print(tweet?.favoriteCount)
+            let id = tweet?.tweetID
+            TwitterClient.shareInstance.getSingleTweet({ (tweet: Tweet) -> () in
+                cell.retweet.text = "\(tweet.retweetCount)"
+                cell.favorites.text = "\(tweet.favoriteCount)"
+                }, failure: { (error: NSError) -> () in
+                    print(error)
+                }, tweetID: id!)
+
             return cell
         }
         
@@ -80,12 +89,18 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = DetailTableView.dequeueReusableCellWithIdentifier("ReplyCell", forIndexPath:
                 indexPath) as! ReplyTableViewCell
             
-            cell.isFavorited = tweet?.isFavorited
             cell.tweetID = tweet?.tweetID
-            
             print(cell.tweetID)
-            print(cell.isFavorited)
             
+            TwitterClient.shareInstance.getSingleTweet({ (tweet: Tweet) -> () in
+                cell.isFavorited = tweet.isFavorited
+                cell.retweeted = tweet.retweeted
+                }, failure: { (error: NSError) -> () in
+                    print(error)
+                }, tweetID: cell.tweetID!)
+            
+//            cell.isFavorited = tweet?.isFavorited
+//            cell.retweeted = tweet?.retweeted
             
             return cell
         }
@@ -105,5 +120,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return 3
+    }
+    
+    func imageTapped(img: AnyObject) {
+        print("hahahahahaha")
+        self.performSegueWithIdentifier("profileSegue", sender: self)
+        
     }
 }

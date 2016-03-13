@@ -26,9 +26,7 @@ class DetailTableViewCell: UITableViewCell {
     var tweet: Tweet! {
         didSet {
             if let tweet = tweet {
-                print(tweet)
-                
-                print("table is set")
+            
                 profile_image.setImageWithURL((tweet.profileImage)!)
                 
                 screenName.text = tweet.username
@@ -37,9 +35,7 @@ class DetailTableViewCell: UITableViewCell {
                 tweetText.sizeToFit()
                 
                 createAt.text = tweet.createAt
-                print(tweet.createAt)
-                
-                print("table set is finished")
+            
             }
             
         }
@@ -62,5 +58,7 @@ class DetailTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+
 
 }

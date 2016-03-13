@@ -35,14 +35,28 @@ class ReplyTableViewCell: UITableViewCell {
         }
     }
     
+    var retweeted: Bool? {
+        didSet {
+            if let retweeted = retweeted {
+                if retweeted {
+                    retweet.setImage(UIImage(named: "retweet-action"), forState:UIControlState.Normal)
+                    retweet.tintColor = UIColor.redColor()
+                } else {
+                    retweet.setImage(UIImage(named: "retweet-action"), forState:UIControlState.Normal)
+                }
+                retweet.setTitle("", forState: UIControlState.Normal)
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         reply.setImage(UIImage(named: "reply-action-pressed"), forState:UIControlState.Normal)
         reply.setTitle("", forState: UIControlState.Normal)
         
-        retweet.setImage(UIImage(named: "retweet-action"), forState:UIControlState.Normal)
-        retweet.setTitle("", forState: UIControlState.Normal)
+//        retweet.setImage(UIImage(named: "retweet-action"), forState:UIControlState.Normal)
+//        retweet.setTitle("", forState: UIControlState.Normal)
         
 
         
@@ -57,7 +71,7 @@ class ReplyTableViewCell: UITableViewCell {
     
     @IBAction func retweetButtonPressed(sender: AnyObject) {
         TwitterClient.shareInstance.retweetAction({ (dictionary: NSDictionary) -> () in
-            print(dictionary)
+//            print(dictionary)
             self.retweet.tintColor = UIColor.redColor()
             }, failure: { (error:NSError) -> () in
                 print(error)
@@ -68,7 +82,7 @@ class ReplyTableViewCell: UITableViewCell {
     
     @IBAction func likeButtonPressed(sender: AnyObject) {
         TwitterClient.shareInstance.toLikeAction({ (dictionary: NSDictionary) -> () in
-            print(dictionary)
+
             self.favorite.tintColor = UIColor.redColor()
             }, failure: { (error: NSError) -> () in
                 print(error)
